@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wwh">
+  <meta name="keywords" content="W &amp; G的博客">
+  
+    <meta name="description" content="ShirohelloShiro1.自定义UserRealm12345678910111213public class UserRealm extends AuthorizingRealm &amp;#123;    @Override    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCol">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shiro">
+<meta property="og:url" content="http://example.com/2022/01/28/shiro/index.html">
+<meta property="og:site_name" content="W &amp; G">
+<meta property="og:description" content="ShirohelloShiro1.自定义UserRealm12345678910111213public class UserRealm extends AuthorizingRealm &amp;#123;    @Override    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCol">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/28/shiro/image-20211110191322957.png">
+<meta property="article:published_time" content="2022-01-28T05:38:34.000Z">
+<meta property="article:modified_time" content="2022-01-28T06:12:11.291Z">
+<meta property="article:author" content="Wwh">
+<meta property="article:tag" content="W &amp; G的博客">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/01/28/shiro/image-20211110191322957.png">
+  
+  
+  <title>shiro - W &amp; G</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":120,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"always","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W&amp;G</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="shiro">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-28 13:38" pubdate>
+        2022年1月28日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      50 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">shiro</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Shiro"><a href="#Shiro" class="headerlink" title="Shiro"></a>Shiro</h1><h2 id="helloShiro"><a href="#helloShiro" class="headerlink" title="helloShiro"></a>helloShiro</h2><h3 id="1-自定义UserRealm"><a href="#1-自定义UserRealm" class="headerlink" title="1.自定义UserRealm"></a>1.自定义UserRealm</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRealm</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AuthorizingRealm</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> AuthorizationInfo <span class="hljs-title">doGetAuthorizationInfo</span><span class="hljs-params">(PrincipalCollection principalCollection)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;执行了授权操作&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> AuthenticationInfo <span class="hljs-title">doGetAuthenticationInfo</span><span class="hljs-params">(AuthenticationToken authenticationToken)</span> <span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;执行了认证操作&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-配置ShiroConfig"><a href="#2-配置ShiroConfig" class="headerlink" title="2.配置ShiroConfig"></a>2.配置ShiroConfig</h3><p>此处报错 应将DefaultSecurityManager改为Default<strong>Web</strong>SecurityManager</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShiroConfig</span></span>&#123;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ShiroFilterFactoryBean <span class="hljs-title">shiroFilterFactoryBean</span><span class="hljs-params">(<span class="hljs-meta">@Qualifier(&quot;Manager&quot;)</span> DefaultSecurityManager defaultSecurityManager)</span></span>&#123;<br>        ShiroFilterFactoryBean Bean = <span class="hljs-keyword">new</span> ShiroFilterFactoryBean();<br>        Bean.setSecurityManager(defaultSecurityManager);<br>        <span class="hljs-keyword">return</span> Bean;<br>    &#125;<br>    <br>    <span class="hljs-meta">@Bean(name = &quot;Manager&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> DefaultSecurityManager <span class="hljs-title">defaultSecurityManager</span><span class="hljs-params">(<span class="hljs-meta">@Qualifier(&quot;UserRealm&quot;)</span> UserRealm userRealm)</span></span>&#123;<br>        DefaultSecurityManager defaultSecurityManager = <span class="hljs-keyword">new</span> DefaultSecurityManager();<br>        defaultSecurityManager.setRealm(userRealm);<br>        <span class="hljs-keyword">return</span>  defaultSecurityManager;<br>    &#125;<br>    <br>    <span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> UserRealm <span class="hljs-title">userRealm</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> UserRealm();<br>&#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>由上到下依次赋值</p>
+<h3 id="3-设置Shiro过滤器"><a href="#3-设置Shiro过滤器" class="headerlink" title="3.设置Shiro过滤器"></a>3.设置Shiro过滤器</h3><p><img src="/2022/01/28/shiro/image-20211110191322957.png" srcset="/img/loading.gif" lazyload alt="image-20211110191322957"></p>
+<h3 id="4-解决重定向问题-默认跳转index-jsp"><a href="#4-解决重定向问题-默认跳转index-jsp" class="headerlink" title="4.解决重定向问题  默认跳转index.jsp"></a>4.解决重定向问题  默认跳转index.jsp</h3><p>新建</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginFilter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">UserFilter</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">redirectToLogin</span><span class="hljs-params">(ServletRequest request, ServletResponse response)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        response.setContentType(<span class="hljs-string">&quot;application/json; charset=utf-8&quot;</span>);<br>        <span class="hljs-comment">// 自定义返回内容</span><br>        Integer a = <span class="hljs-keyword">new</span> Integer(<span class="hljs-number">401</span>);<br>        response.getWriter().write(a.toString());<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>在config中添加</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Map&lt;String, Filter&gt; filters = Bean.getFilters();<br>filters.put(<span class="hljs-string">&quot;auth&quot;</span>,<span class="hljs-keyword">new</span> LoginFilter());<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>此处出现问题 controller层没有加@ResponseBody 报错</p>
+<h3 id="5-在controller中写login方法"><a href="#5-在controller中写login方法" class="headerlink" title="5.在controller中写login方法"></a>5.在controller中写login方法</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(value = &quot;/to&quot;,method = RequestMethod.POST)</span><br><span class="hljs-meta">@ResponseBody</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Msg <span class="hljs-title">Login</span><span class="hljs-params">(LoginModel loginModel, HttpServletRequest request)</span></span>&#123;<br>    Subject subject = SecurityUtils.getSubject();<br>    UsernamePasswordToken Token = <span class="hljs-keyword">new</span> UsernamePasswordToken(loginModel.getUsername(),loginModel.getPassword());<br>    <span class="hljs-keyword">try</span> &#123;<br>        subject.login(Token);<br>    &#125;<span class="hljs-keyword">catch</span> (UnknownAccountException e)&#123;<br>        <span class="hljs-keyword">return</span> Msg.fail(<span class="hljs-string">&quot;用户不存在&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">catch</span> (IncorrectCredentialsException e)&#123;<br>        <span class="hljs-keyword">return</span> Msg.fail(<span class="hljs-string">&quot;密码错误&quot;</span>);<br>    &#125;<br>    String s = CreatJwtToken.CreatToken(Token);<br>    Session session = subject.getSession();<br>    session.setAttribute(<span class="hljs-string">&quot;token&quot;</span>,s);<br>    System.out.println(<span class="hljs-string">&quot;***************************&quot;</span>);<br>    System.out.println(session.getAttribute(<span class="hljs-string">&quot;token&quot;</span>));<br>    <span class="hljs-keyword">return</span> Msg.DataOk(<span class="hljs-string">&quot;token&quot;</span>,s);<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>此处是从Subject.login进入到  UserRealm 中执行认证操作创建 </p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">UsernamePasswordToken Token = <span class="hljs-keyword">new</span> UsernamePasswordToken(loginModel.getUsername(),loginModel.getPassword());<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>通过</p>
+<p>subject.login(token)</p>
+<p>传入</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> AuthenticationInfo <span class="hljs-title">doGetAuthenticationInfo</span><span class="hljs-params">(AuthenticationToken Token)</span> <span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;<br>    System.out.println(<span class="hljs-string">&quot;执行了认证操作&quot;</span>);<br>    UsernamePasswordToken userToken = (UsernamePasswordToken) Token;<br>    String username = userToken.getUsername();<br>    User user = userService.getUserByname(username);<br>    <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SimpleAuthenticationInfo(<span class="hljs-string">&quot;&quot;</span>,user.getPassword(),<span class="hljs-string">&quot;&quot;</span>);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>密码操作由shiro执行</p>
+<h3 id="6-新建JWTtoken加密token"><a href="#6-新建JWTtoken加密token" class="headerlink" title="6.新建JWTtoken加密token"></a>6.新建JWTtoken加密token</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreatJwtToken</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String SECRET = <span class="hljs-string">&quot;wang&quot;</span>;<br><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">CreatToken</span><span class="hljs-params">(UsernamePasswordToken Token)</span></span>&#123;<br>        Date date = <span class="hljs-keyword">new</span> Date();<br><br><br>        <span class="hljs-comment">//设置过期时间为一分钟</span><br>        Calendar nowtime = Calendar.getInstance();<br>        nowtime.add(Calendar.DAY_OF_WEEK,<span class="hljs-number">3</span>);<br>        Date time = nowtime.getTime();<br><br>        HashMap&lt;String, Object&gt; Map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>        Map.put(<span class="hljs-string">&quot;alg&quot;</span>,<span class="hljs-string">&quot;HS256&quot;</span>);<br>        Map.put(<span class="hljs-string">&quot;typ&quot;</span>,<span class="hljs-string">&quot;JWT&quot;</span>);<br>        String token = JWT.create()<br>                .withHeader(Map)<span class="hljs-comment">//设置头部</span><br>                .withClaim(<span class="hljs-string">&quot;username&quot;</span>,Token.getUsername())<span class="hljs-comment">//主体</span><br>                .withClaim(<span class="hljs-string">&quot;password&quot;</span>,Token.getPassword().toString())<span class="hljs-comment">//主体</span><br>                .withExpiresAt(time)<span class="hljs-comment">//结束时间</span><br>                .withIssuedAt(date)<span class="hljs-comment">//开始时间</span><br>                .sign(Algorithm.HMAC256(SECRET));<span class="hljs-comment">//加入密钥</span><br><br>        <span class="hljs-keyword">return</span> token;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map&lt;String, Claim&gt; <span class="hljs-title">verifyToken</span><span class="hljs-params">(String Token)</span></span>&#123;<br>        JWTVerifier build = JWT.require(Algorithm.HMAC256(SECRET)).build();<span class="hljs-comment">//解密token</span><br>        DecodedJWT jwt = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span>&#123;<br>            jwt = build.verify(Token);<span class="hljs-comment">//解码token</span><br>            System.out.println(<span class="hljs-string">&quot;111111111111&quot;</span>);<br>            System.out.println(Token);<br>        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<span class="hljs-comment">//捕获runtime异常</span><br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;登录已过期&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> jwt.getClaims();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+
+
+<h3 id="7-将生成的token传入subject的Session中"><a href="#7-将生成的token传入subject的Session中" class="headerlink" title="7.将生成的token传入subject的Session中"></a>7.将生成的token传入subject的Session中</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String s = CreatJwtToken.CreatToken(Token);<br>Session session = subject.getSession();<br>session.setAttribute(<span class="hljs-string">&quot;token&quot;</span>,s);<br>System.out.println(<span class="hljs-string">&quot;***************************&quot;</span>);<br>System.out.println(session.getAttribute(<span class="hljs-string">&quot;token&quot;</span>));<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="8-在其他操作中验证token-可以将此部分打包为工具类"><a href="#8-在其他操作中验证token-可以将此部分打包为工具类" class="headerlink" title="8.在其他操作中验证token 可以将此部分打包为工具类"></a>8.在其他操作中验证token 可以将此部分打包为工具类</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Session session = SecurityUtils.getSubject().getSession();<br>Object principal = SecurityUtils.getSubject().getPrincipal();<br>System.out.println(principal);<br>String token = (String) session.getAttribute(<span class="hljs-string">&quot;token&quot;</span>);<br>System.out.println(<span class="hljs-string">&quot;*******************&quot;</span>);<br>System.out.println(token);<br>Map&lt;String, Claim&gt; stringClaimMap = CreatJwtToken.verifyToken(token);<br></code></pre></div></td></tr></table></figure>
+
+
+
+
+
+<p>可以在数据库中添加角色字段   在此部分中授权 不同角色不同功能</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> AuthorizationInfo <span class="hljs-title">doGetAuthorizationInfo</span><span class="hljs-params">(PrincipalCollection principalCollection)</span> </span>&#123;<br>    System.out.println(<span class="hljs-string">&quot;执行了授权操作&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+
+
+<p>出现的问题</p>
+<p> String principal = (String) SecurityUtils.getSubject().getPrincipal();</p>
+<p>获取不到登录对象的用户名</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> AuthenticationInfo <span class="hljs-title">doGetAuthenticationInfo</span><span class="hljs-params">(AuthenticationToken Token)</span> <span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;<br>    System.out.println(<span class="hljs-string">&quot;执行了认证操作&quot;</span>);<br>    UsernamePasswordToken userToken = (UsernamePasswordToken) Token;<br>    String username = userToken.getUsername();<br>    User user = userService.getUserByname(username);<br>    <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SimpleAuthenticationInfo(user.getUsername(),user.getPassword(),<span class="hljs-string">&quot;&quot;</span>);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>new SimpleAuthenticationInfo(<strong>user.getUsername()</strong>,user.getPassword(),””);原因在于这里没有传入</p>
+<p>此处黑体字也可以传入对应的实体类 </p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String principal = (String) SecurityUtils.getSubject().getPrincipal(); <br></code></pre></div></td></tr></table></figure>
+
+<p>就需要改为</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">User user = (User) SecurityUtils.getSubject().getPrincipal();<br></code></pre></div></td></tr></table></figure>
+
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/28/Redis/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Redis</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/28/spring/">
+                        <span class="hidden-mobile">spring</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span></span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>W&G</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wwh">
+  <meta name="keywords" content="W &amp; G的博客">
+  
+    <meta name="description" content="mysql重点1 被约束的表称为副表，约束别人的表称为主表，外键设置在副表上的。2 主表被参考的字段通常都设置为主键3 当有外键约束的时候，添加数据的顺序：先加主表，再添加副表的数据4 当有外键约束的时候，修改数据的顺序：先修改副表，再修改主表的数据5 当有外键约束的时候，删除数据的顺序：先删除副表，再删除主表的数据 一、数据库操作1、查看数据库　　　　&gt;SHOW DATABASES; 2、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql">
+<meta property="og:url" content="http://example.com/2022/01/28/Mysql/index.html">
+<meta property="og:site_name" content="W &amp; G">
+<meta property="og:description" content="mysql重点1 被约束的表称为副表，约束别人的表称为主表，外键设置在副表上的。2 主表被参考的字段通常都设置为主键3 当有外键约束的时候，添加数据的顺序：先加主表，再添加副表的数据4 当有外键约束的时候，修改数据的顺序：先修改副表，再修改主表的数据5 当有外键约束的时候，删除数据的顺序：先删除副表，再删除主表的数据 一、数据库操作1、查看数据库　　　　&gt;SHOW DATABASES; 2、">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-28T05:35:51.000Z">
+<meta property="article:modified_time" content="2022-01-28T05:36:23.838Z">
+<meta property="article:author" content="Wwh">
+<meta property="article:tag" content="W &amp; G的博客">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Mysql - W &amp; G</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":120,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"always","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W&amp;G</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Mysql">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-28 13:35" pubdate>
+        2022年1月28日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Mysql</h1>
+            
+            <div class="markdown-body">
+              <h1 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h1><h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><p>1 被约束的表称为副表，约束别人的表称为主表，外键设置在副表上的。<br>2 主表被参考的字段通常都设置为主键<br>3 当有外键约束的时候，添加数据的顺序：先加主表，再添加副表的数据<br>4 当有外键约束的时候，修改数据的顺序：先修改副表，再修改主表的数据<br>5 当有外键约束的时候，删除数据的顺序：先删除副表，再删除主表的数据</p>
+<h2 id="一、数据库操作"><a href="#一、数据库操作" class="headerlink" title="一、数据库操作"></a>一、数据库操作</h2><h3 id="1、查看数据库"><a href="#1、查看数据库" class="headerlink" title="1、查看数据库"></a>1、查看数据库</h3><p>　　　　&gt;SHOW DATABASES;</p>
+<h3 id="2、创建数据库："><a href="#2、创建数据库：" class="headerlink" title="2、创建数据库："></a>2、创建数据库：</h3><p>　　　　&gt;CREATE DATABASE db_name;　　//db_name为数据库名</p>
+<h3 id="3、使用数据库："><a href="#3、使用数据库：" class="headerlink" title="3、使用数据库："></a>3、使用数据库：</h3><p>　　　　&gt;USE db_name;</p>
+<h3 id="4、删除数据库："><a href="#4、删除数据库：" class="headerlink" title="4、删除数据库："></a>4、删除数据库：</h3><p>　　　　&gt;DROP DATABASE db_name;</p>
+<h2 id="二、创建表"><a href="#二、创建表" class="headerlink" title="二、创建表"></a>二、创建表</h2><h3 id="1、创建表"><a href="#1、创建表" class="headerlink" title="1、创建表"></a>1、创建表</h3><p>　　　　&gt;CREATE TABLE table_name(</p>
+<p>　　　　&gt;id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,　　　　//id值，无符号、非空、递增——唯一性，可做主键。</p>
+<p>　　　　&gt;name VARCHAR(60) NOT NULL</p>
+<p>　　　　&gt;score TINYINT UNSIGNED NOT NULL DEFAULT 0,　　　　//设置默认列值</p>
+<p>　　　　&gt;PRIMARY KEY(id)</p>
+<p>　　　　&gt;)ENGINE=InnoDB　　　　//设置表的存储引擎，一般常用InnoDB和MyISAM；InnoDB可靠，支持事务；MyISAM高效不支持全文检索</p>
+<p>　　　　&gt;DEFAULT charset=utf8;　　//设置默认的编码，防止数据库中文乱码</p>
+<p>　　　　如果有条件的创建数据表还可以使用  &gt;CREATE TABLE IF NOT EXISTS tb_name(……..</p>
+<h3 id="2、复制表"><a href="#2、复制表" class="headerlink" title="2、复制表"></a>2、复制表</h3><p>　　　　&gt;CREATE TABLE tb_name2 SELECT * FROM tb_name;</p>
+<p>　　　　或者部分复制：</p>
+<p>　　　　&gt;CREATE TABLE tb_name2 SELECT id,name FROM tb_name;</p>
+<h3 id="3、创建临时表"><a href="#3、创建临时表" class="headerlink" title="3、创建临时表"></a>3、创建临时表</h3><p>　　　　&gt;CREATE TEMPORARY TABLE tb_name(这里和创建普通表一样);</p>
+<h3 id="4、查看数据库中可用的表"><a href="#4、查看数据库中可用的表" class="headerlink" title="4、查看数据库中可用的表"></a>4、查看数据库中可用的表</h3><p>　　　　&gt;SHOW TABLES;</p>
+<h3 id="5、查看表的结构"><a href="#5、查看表的结构" class="headerlink" title="5、查看表的结构"></a>5、查看表的结构</h3><p>　　　　&gt;DESCRIBE tb_name;</p>
+<p>　　　　也可以使用：</p>
+<p>　　　　&gt;SHOW COLUMNS in tb_name; 　　　//from也可以</p>
+<h3 id="6、删除表"><a href="#6、删除表" class="headerlink" title="6、删除表"></a>6、删除表</h3><p>　　　　&gt;DROP [ TEMPORARY ] TABLE [ IF EXISTS ] tb_name[ ,tb_name2…….];</p>
+<p>　　　　实例：</p>
+<p>　　　　&gt;DROP TABLE IF EXISTS tb_name;</p>
+<h3 id="7、表重命名："><a href="#7、表重命名：" class="headerlink" title="7、表重命名："></a>7、表重命名：</h3><p>　　　　&gt;RENAME TABLE name_old TO name_new;</p>
+<p>　　　　还可以使用：</p>
+<p>　　　　&gt;ALTER TABLE name_old RENAME name_new;</p>
+<h2 id="三、修改表："><a href="#三、修改表：" class="headerlink" title="三、修改表："></a>三、修改表：</h2><h3 id="1、更改表结构"><a href="#1、更改表结构" class="headerlink" title="1、更改表结构"></a>1、更改表结构</h3><p>　　　　&gt;ALTER TABLE tb_name ADD[CHANGE,RENAME,DROP] …要更改的内容…</p>
+<p>　　　　实例：</p>
+<p>　　　　&gt;ALTER TABLE tb_name ADD COLUMN address varchar(80) NOT NULL;</p>
+<p>　　　　&gt;ALTER TABLE tb_name DROP address;</p>
+<p>　　　　&gt;ALTER TABLE tb_name CHANGE score score SMALLINT(4) NOT NULL;</p>
+<h2 id="四、插入数据"><a href="#四、插入数据" class="headerlink" title="四、插入数据"></a>四、插入数据</h2><p>　　1、插入数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs my">INSERT INTO tb_name(id,name,score)VALUES(NULL,&#x27;张三&#x27;,140),(NULL,&#x27;张四&#x27;,178),(NULL,&#x27;张五&#x27;,134);<br></code></pre></div></td></tr></table></figure>
+
+<p>　　　　这里的插入多条数据直接在后边加上逗号，直接写入插入的数据即可；主键id是自增的列，可以不用写。</p>
+<p>　　2、插入检索出来的数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mysq">&gt;INSERT INTO tb_name(name,score) SELECT name,score FROM tb_name2;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="五、更新数据："><a href="#五、更新数据：" class="headerlink" title="五、更新数据："></a>五、更新数据：</h2><p>　　1、指定更新数据：</p>
+<p>　　　　&gt;UPDATE tb_name SET score=189 WHERE id=2;</p>
+<p>　　　　&gt;UPDATE tablename SET columnName=NewValue [ WHERE condition ]</p>
+<h2 id="六、删除数据："><a href="#六、删除数据：" class="headerlink" title="六、删除数据："></a>六、删除数据：</h2><h4 id="1、删除数据："><a href="#1、删除数据：" class="headerlink" title="1、删除数据："></a>1、删除数据：</h4><p>　　　　&gt;DELETE FROM tb_name WHERE id=3;</p>
+<h2 id="七、条件控制："><a href="#七、条件控制：" class="headerlink" title="七、条件控制："></a>七、条件控制：</h2><h4 id="1、WHERE-语句："><a href="#1、WHERE-语句：" class="headerlink" title="1、WHERE 语句："></a>1、WHERE 语句：</h4><p>　　　　&gt;SELECT * FROM tb_name WHERE id=3;</p>
+<h4 id="2、HAVING-语句："><a href="#2、HAVING-语句：" class="headerlink" title="2、HAVING 语句："></a>2、HAVING 语句：</h4><p>　　　　&gt;SELECT * FROM tb_name GROUP BY score HAVING count(*)&gt;2</p>
+<h4 id="3、相关条件控制符："><a href="#3、相关条件控制符：" class="headerlink" title="3、相关条件控制符："></a>3、相关条件控制符：</h4><p>　　　　=、&gt;、&lt;、&lt;&gt;、IN(1,2,3……)、BETWEEN a AND b、NOT</p>
+<p>　　　　AND 、OR</p>
+<p>　　　　Linke()用法中    %  为匹配任意、  _  匹配一个字符（可以是汉字）</p>
+<p>　　　　IS NULL 空值检测</p>
+<h2 id="八、MySQL的正则表达式："><a href="#八、MySQL的正则表达式：" class="headerlink" title="八、MySQL的正则表达式："></a>八、MySQL的正则表达式：</h2><h4 id="1、Mysql支持REGEXP的正则表达式："><a href="#1、Mysql支持REGEXP的正则表达式：" class="headerlink" title="1、Mysql支持REGEXP的正则表达式："></a>1、Mysql支持REGEXP的正则表达式：</h4><p>　　　　&gt;SELECT * FROM tb_name WHERE name REGEXP ‘^[A-D]’  //找出以A-D 为开头的name</p>
+<p>　　2、特殊字符需要转义。</p>
+<h2 id="九、MySQL的一些函数："><a href="#九、MySQL的一些函数：" class="headerlink" title="九、MySQL的一些函数："></a>九、MySQL的一些函数：</h2><h4 id="1、字符串链接——CONCAT"><a href="#1、字符串链接——CONCAT" class="headerlink" title="1、字符串链接——CONCAT()"></a>1、字符串链接——CONCAT()</h4><p>　　　　&gt;SELECT CONCAT(name,’=&gt;’,score) FROM tb_name</p>
+<h4 id="2、数学函数："><a href="#2、数学函数：" class="headerlink" title="2、数学函数："></a>2、数学函数：</h4><p>　　　　AVG、SUM、MAX、MIN、COUNT；</p>
+<h4 id="3、文本处理函数："><a href="#3、文本处理函数：" class="headerlink" title="3、文本处理函数："></a>3、文本处理函数：</h4><p>　　　　TRIM、LOCATE、UPPER、LOWER、SUBSTRING</p>
+<h4 id="4、运算符："><a href="#4、运算符：" class="headerlink" title="4、运算符："></a>4、运算符：</h4><p>　　　　+、-、*、\</p>
+<h4 id="5、时间函数："><a href="#5、时间函数：" class="headerlink" title="5、时间函数："></a>5、时间函数：</h4><p>　　　　DATE()、CURTIME()、DAY()、YEAR()、NOW()…..</p>
+<h2 id="十、分组查询："><a href="#十、分组查询：" class="headerlink" title="十、分组查询："></a>十、分组查询：</h2><h3 id="1、分组查询可以按照指定的列进行分组："><a href="#1、分组查询可以按照指定的列进行分组：" class="headerlink" title="1、分组查询可以按照指定的列进行分组："></a>1、分组查询可以按照指定的列进行分组：</h3><p>　　　　&gt;SELECT COUNT(<em>) FROM tb_name GROUP BY score HAVING COUNT(</em>)&gt;1;</p>
+<p>　　2、条件使用Having；</p>
+<p>　　3、ORDER BY 排序：</p>
+<p>　　　　ORDER BY DESC|ASC　　　　=&gt;按数据的降序和升序排列</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/28/JavaWeb/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaWeb</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/28/java/">
+                        <span class="hidden-mobile">java</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span></span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>W&G</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

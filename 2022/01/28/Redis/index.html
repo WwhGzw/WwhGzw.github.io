@@ -20,21 +20,30 @@
   <meta name="author" content="Wwh">
   <meta name="keywords" content="W &amp; G的博客">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="RedisRedis中的数据结构 时间复杂度  哈希表通过用key键计算出对应的hashcode存放到对应的哈希蛹中  所以使用哈希表的增删改查都是O(1)级别的 redis广泛的使用了哈希表包括 String、Hash 和 Set Sorted Set 采用了 O(logN) 复杂度的跳表 跳表  本身就是一种链表，加入了多级索引  提高检索效率  最终的时间复杂度为O(logN)   如果数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2021/09/25/hello-world/index.html">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="http://example.com/2022/01/28/Redis/index.html">
 <meta property="og:site_name" content="W &amp; G">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="RedisRedis中的数据结构 时间复杂度  哈希表通过用key键计算出对应的hashcode存放到对应的哈希蛹中  所以使用哈希表的增删改查都是O(1)级别的 redis广泛的使用了哈希表包括 String、Hash 和 Set Sorted Set 采用了 O(logN) 复杂度的跳表 跳表  本身就是一种链表，加入了多级索引  提高检索效率  最终的时间复杂度为O(logN)   如果数据">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-09-25T10:28:57.600Z">
-<meta property="article:modified_time" content="2021-09-25T10:28:57.600Z">
+<meta property="og:image" content="http://example.com/2022/01/28/Redis/image-20211121153717795.png">
+<meta property="og:image" content="http://example.com/2022/01/28/Redis/image-20211121160046838.png">
+<meta property="og:image" content="http://example.com/2022/01/28/Redis/image-20211121212325545.png">
+<meta property="og:image" content="http://example.com/2022/01/28/Redis/image-20211121223415928.png">
+<meta property="og:image" content="http://example.com/2022/01/28/Redis/image-20211123202031799.png">
+<meta property="og:image" content="http://example.com/2022/01/28/Redis/image-20211124204307356.png">
+<meta property="og:image" content="http://example.com/2022/01/28/Redis/image-20211124204531708.png">
+<meta property="og:image" content="http://example.com/2022/01/28/Redis/image-20211125210734424.png">
+<meta property="article:published_time" content="2022-01-28T05:39:31.000Z">
+<meta property="article:modified_time" content="2022-01-28T06:11:33.327Z">
 <meta property="article:author" content="Wwh">
 <meta property="article:tag" content="W &amp; G的博客">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/01/28/Redis/image-20211121153717795.png">
   
   
-  <title>Hello World - W &amp; G</title>
+  <title>Redis - W &amp; G</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -180,7 +189,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hello World">
+            <span class="h2" id="subtitle" title="Redis">
               
             </span>
 
@@ -190,8 +199,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-09-25 18:28" pubdate>
-        2021年9月25日 晚上
+      <time datetime="2022-01-28 13:39" pubdate>
+        2022年1月28日 下午
       </time>
     </span>
   
@@ -201,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      367 字
+      2k 字
     </span>
   
 
@@ -210,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      17 分钟
     </span>
   
 
@@ -239,23 +248,60 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">Redis</h1>
             
             <div class="markdown-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></div></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">$ hexo server<br></code></pre></div></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">$ hexo generate<br></code></pre></div></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></div></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
+              <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis中的数据结构"><a href="#Redis中的数据结构" class="headerlink" title="Redis中的数据结构"></a>Redis中的数据结构</h2><p><img src="/2022/01/28/Redis/image-20211121153717795.png" srcset="/img/loading.gif" lazyload alt="image-20211121153717795"></p>
+<p>时间复杂度</p>
+<p><img src="/2022/01/28/Redis/image-20211121160046838.png" srcset="/img/loading.gif" lazyload alt="image-20211121160046838"></p>
+<p>哈希表通过用key键计算出对应的hashcode存放到对应的哈希蛹中 </p>
+<p>所以使用哈希表的增删改查都是O(1)级别的</p>
+<p>redis广泛的使用了哈希表包括 String、Hash 和 Set</p>
+<p>Sorted Set 采用了 O(logN) 复杂度的跳表</p>
+<p>跳表  本身就是一种链表，加入了多级索引  提高检索效率</p>
+<p><img src="/2022/01/28/Redis/image-20211121212325545.png" srcset="/img/loading.gif" lazyload alt="image-20211121212325545"></p>
+<p>最终的时间复杂度为O(logN)</p>
+<p>  如果数据较多，空间少时，会出现哈希冲突</p>
+<p>避免哈希冲突可使用value储存相应集合的指针</p>
+<p>问：整数数组和压缩列表在查找时间复杂度方面并没有很大的优势，那为什么 Redis 还会把它们作为底层数据结构呢？</p>
+<p>Redis 是单线程，主要是指 <strong>Redis 的网络 IO 和键值对读写是由一个线程来完成的，这也是 Redis 对外提供键值存储服务的主要流程</strong>。但 Redis 的其他功能，比如持久化、异步删除、集群数据同步等，其实是由额外的线程执行的。</p>
+<p>Redis 有 List 的数据类型，并提供出队（LPOP）和入队（LPUSH）操作。假设 Redis 采用多线程设计，如下图所示，现在有两个线程 A 和 B，线程 A 对一个 List 做 LPUSH 操作，并对队列长度加 1。同时，线程 B 对该 List 执行 LPOP 操作，并对队列长度减 1。为了保证队列长度的正确性，Redis 需要让线程 A 和 B 的 LPUSH 和 LPOP 串行执行，这样一来，Redis 可以无误地记录它们对 List 长度的修改。否则，我们可能就会得到错误的长度结果。这就是<strong>多线程编程模式面临的共享资源的并发访问控制问题</strong>。</p>
+<p>Redis为什么使用单线程</p>
+<p>采用多线程开发一般会引入同步原语来保护共享资源的并发访问，这也会降低系统代码的易调试性和可维护性。为了避免这些问题，Redis 直接采用了单线程模式。</p>
+<p>单线程的Redis为什么那么快</p>
+<p>一方面，Redis 的大部分操作在内存上完成，再加上它采用了高效的数据结构，例如哈希表和跳表，这是它实现高性能的一个重要原因。另一方面，就是 Redis 采用了<strong>多路复用机制</strong>，使其在网络 IO 操作中能并发处理大量的客户端请求，实现高吞吐率。接下来，我们就重点学习下多路复用机制。</p>
+<h2 id="AOF日志"><a href="#AOF日志" class="headerlink" title="AOF日志"></a>AOF日志</h2><p>日志的作用：服务器宕机后恢复数据</p>
+<p>AOF日志是先进行对Redis的操作 再写日志  比起先写日志后执行命令来看 不会出现错误的数据，保证数据准确性</p>
+<p>坏处：</p>
+<p>一丶可能发生阻塞，在写日志是对磁盘读写过慢，阻塞下一次命令的执行，</p>
+<p>二丶在Redis执行完命令后 服务器宕机，日志无法书写，造成数据丢失</p>
+<h3 id="三种写回策略"><a href="#三种写回策略" class="headerlink" title="三种写回策略"></a>三种写回策略</h3><p><strong>Always</strong>，同步写回：每个写命令执行完，立马同步地将日志写回磁盘；</p>
+<p><strong>Everysec</strong>，每秒写回：每个写命令执行完，只是先把日志写到 AOF 文件的内存缓冲区，每隔一秒把缓冲区中的内容写入磁盘；</p>
+<p><strong>No</strong>，操作系统控制的写回：每个写命令执行完，只是先把日志写到 AOF 文件的内存缓冲区，由操作系统决定何时将缓冲区内容写回磁盘。</p>
+<h3 id="策略的弊端"><a href="#策略的弊端" class="headerlink" title="策略的弊端"></a>策略的弊端</h3><p><strong>Always</strong>，“同步写回”可以做到基本不丢数据，但是它在每一个写命令后都有一个慢速的落盘操作，不可避免地会影响主线程性能；</p>
+<p><strong>Everysec</strong>，虽然“操作系统控制的写回”在写完缓冲区后，就可以继续执行后续的命令，但是落盘的时机已经不在 Redis 手中了，只要 AOF 记录没有写回磁盘，一旦宕机对应的数据就丢失了；</p>
+<p><strong>No</strong>，“每秒写回”采用一秒写回一次的频率，避免了“同步写回”的性能开销，虽然减少了对系统性能的影响，但是如果发生宕机，上一秒内未落盘的命令操作仍然会丢失。所以，这只能算是，在避免影响主线程性能和避免数据丢失两者间取了个折中。</p>
+<p><img src="/2022/01/28/Redis/image-20211121223415928.png" srcset="/img/loading.gif" lazyload alt="image-20211121223415928"></p>
+<p>到这里，我们就可以根据系统对高性能和高可靠性的要求，来选择使用哪种写回策略了。总结一下就是：想要获得高性能，就选择 No 策略；如果想要得到高可靠性保证，就选择 Always 策略；如果允许数据有一点丢失，又希望性能别受太大影响的话，那么就选择 Everysec 策略。</p>
+<p>AOF文件过大会引起读写缓慢宕机后恢复数据缓慢 所以会有AOF数据重写机制</p>
+<p>重写机制会将AOF中的多条命令转为一条 “多对一”</p>
+<p>重写机制会在主线程下frok（Linux下的一个系统读写方法）出一个子线程来执行重写操作</p>
+<h2 id="Redis快照"><a href="#Redis快照" class="headerlink" title="Redis快照"></a>Redis快照</h2><p>redis有两种方法实现快照</p>
+<p>1 save</p>
+<p>2 bgsave</p>
+<p>save是在主线程中执行想内存中加载RDB文件  会造成主线程阻塞 影响正常业务</p>
+<p>bgsave是主线程创建一个子线程来完成加载RDB文件 、bgsave 子进程是由主线程 fork 生成的，可以共享主线程的所有内存数据。bgsave 子进程运行后，开始读取主线程的内存数据，并把它们写入 RDB 文件。</p>
+<p>那还原快照是数据可以读写吗</p>
+<p>可以 借助操作系统的 写时复制技术</p>
+<p><img src="/2022/01/28/Redis/image-20211123202031799.png" srcset="/img/loading.gif" lazyload alt="image-20211123202031799"></p>
+<p>主线程先在复制的数据上修改 不影响子线程在内存的写入</p>
+<p>所以，在 Redis 中如果有一个 bgsave 在运行，就不会再启动第二个 bgsave 子进程</p>
+<p>frok子线程时会一定程度阻塞主进程</p>
+<h2 id="Redis系统性"><a href="#Redis系统性" class="headerlink" title="Redis系统性"></a>Redis系统性</h2><p><img src="/2022/01/28/Redis/image-20211124204307356.png" srcset="/img/loading.gif" lazyload alt="image-20211124204307356"></p>
+<p>Redis问题图解</p>
+<p><img src="/2022/01/28/Redis/image-20211124204531708.png" srcset="/img/loading.gif" lazyload alt="image-20211124204531708"></p>
+<p><img src="/2022/01/28/Redis/image-20211125210734424.png" srcset="/img/loading.gif" lazyload alt="image-20211125210734424"></p>
+<h2 id="四种统计模式"><a href="#四种统计模式" class="headerlink" title="四种统计模式"></a>四种统计模式</h2>
             </div>
             <hr>
             <div>
@@ -275,15 +321,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/28/java/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">java</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2022/01/28/shiro/">
+                        <span class="hidden-mobile">shiro</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

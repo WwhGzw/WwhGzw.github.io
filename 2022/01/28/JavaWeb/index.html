@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wwh">
+  <meta name="keywords" content="W &amp; G的博客">
+  
+    <meta name="description" content="JavaWeb6.1 servlet简介 动态开发web技术  API的接口叫做servlet    编写一个类，实现servlet接口 开发的java部署到web服务器中    6.2hello servlet1.创建一个maven项目 2.再pom中配置依赖 3.在maven下创建子项目    ？？？ 创建好的子项目的pom中应该有parent标签继承父项目   4.在子项目中配置框架 Jav">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaWeb">
+<meta property="og:url" content="http://example.com/2022/01/28/JavaWeb/index.html">
+<meta property="og:site_name" content="W &amp; G">
+<meta property="og:description" content="JavaWeb6.1 servlet简介 动态开发web技术  API的接口叫做servlet    编写一个类，实现servlet接口 开发的java部署到web服务器中    6.2hello servlet1.创建一个maven项目 2.再pom中配置依赖 3.在maven下创建子项目    ？？？ 创建好的子项目的pom中应该有parent标签继承父项目   4.在子项目中配置框架 Jav">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/28/JavaWeb/image-20210928114010950.png">
+<meta property="og:image" content="http://example.com/2022/01/28/JavaWeb/image-20210928115508066.png">
+<meta property="og:image" content="http://example.com/2022/01/28/JavaWeb/image-20210929200600622.png">
+<meta property="og:image" content="http://example.com/2022/01/28/JavaWeb/image-20210929200944206.png">
+<meta property="article:published_time" content="2022-01-28T05:36:46.000Z">
+<meta property="article:modified_time" content="2022-01-28T06:06:34.952Z">
+<meta property="article:author" content="Wwh">
+<meta property="article:tag" content="W &amp; G的博客">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/01/28/JavaWeb/image-20210928114010950.png">
+  
+  
+  <title>JavaWeb - W &amp; G</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":120,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"always","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W&amp;G</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JavaWeb">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-28 13:36" pubdate>
+        2022年1月28日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JavaWeb</h1>
+            
+            <div class="markdown-body">
+              <h1 id="JavaWeb"><a href="#JavaWeb" class="headerlink" title="JavaWeb"></a>JavaWeb</h1><h2 id="6-1-servlet简介"><a href="#6-1-servlet简介" class="headerlink" title="6.1 servlet简介"></a>6.1 servlet简介</h2><ul>
+<li><p>动态开发web技术</p>
+</li>
+<li><p>API的接口叫做servlet  </p>
+<ul>
+<li>编写一个类，实现servlet接口</li>
+<li>开发的java部署到web服务器中</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-2hello-servlet"><a href="#6-2hello-servlet" class="headerlink" title="6.2hello servlet"></a>6.2hello servlet</h2><p>1.创建一个maven项目</p>
+<p>2.再pom中配置依赖</p>
+<p>3.在maven下创建子项目    ？？？ 创建好的子项目的pom中应该有parent标签继承父项目  </p>
+<p>4.在子项目中配置框架 Java包和resources包</p>
+<p>5.java包下创建类继承HttpServlet,重写doget或dopost方法 在web.xml下配置</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">helloservlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;<br>        PrintWriter writer = resp.getWriter();<br>        writer.print(<span class="hljs-string">&quot;hello&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;<br>        <span class="hljs-keyword">super</span>.doPost(req, resp);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">&lt;servlet&gt;<br>    &lt;servlet-name&gt;hello&lt;/servlet-name&gt;<br>    &lt;servlet-<span class="hljs-class"><span class="hljs-keyword">class</span>&gt;<span class="hljs-title">com</span>.<span class="hljs-title">servlet</span>.<span class="hljs-title">helloservlet</span>&lt;/<span class="hljs-title">servlet</span>-<span class="hljs-title">class</span>&gt;</span><br><span class="hljs-class">&lt;/<span class="hljs-title">servlet</span>&gt;</span><br><span class="hljs-class">&lt;<span class="hljs-title">servlet</span>-<span class="hljs-title">mapping</span>&gt;</span><br><span class="hljs-class">    &lt;<span class="hljs-title">servlet</span>-<span class="hljs-title">name</span>&gt;<span class="hljs-title">hello</span>&lt;/<span class="hljs-title">servlet</span>-<span class="hljs-title">name</span>&gt;</span><br><span class="hljs-class">    &lt;<span class="hljs-title">url</span>-<span class="hljs-title">pattern</span>&gt;/<span class="hljs-title">hello</span>&lt;/<span class="hljs-title">url</span>-<span class="hljs-title">pattern</span>&gt;</span><br><span class="hljs-class">&lt;/<span class="hljs-title">servlet</span>-<span class="hljs-title">mapping</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>6.配置tomact 配置路径</p>
+<p>7.启动项目</p>
+<h2 id="6-3servlet原理"><a href="#6-3servlet原理" class="headerlink" title="6.3servlet原理"></a>6.3servlet原理</h2><p><img src="/2022/01/28/JavaWeb/image-20210928114010950.png" srcset="/img/loading.gif" lazyload alt="image-20210928114010950"></p>
+<p><img src="/2022/01/28/JavaWeb/image-20210928115508066.png" srcset="/img/loading.gif" lazyload alt="image-20210928115508066">     </p>
+<p>step1.浏览器依据ip,port建立与servlet容器之间的链接</p>
+<p>  step2.浏览器将请求数据打包（即按照http协议的要求，将相关数据封装成一个数据包，一般称之为请求数据包）并发送给servlet容器</p>
+<p>  step3.servlet容器解析请求数据包，并将解析之后得到的数据放到request对象上。同时，容器还要创建一个response对象。</p>
+<p>  step4.servlet容器依据请求资源路径（即/web01/hello）找到servlet配置（toncat看到应用名web01之后，会找webapps下面 的一个文件夹，也叫web01，进去以后有一个web.xml，打开，然后找到一个一个”/hello”的配置 跟<servlet-name>对应，<servlet-name>（如：HelloWorldServlet）又跟<servlet-class>（如:web.HelloWorldServlet）即类名对应，所以容器知道是要处理哪一个类，会调用这个类的构造器去创建servlet对象），然后创建servlet对象。</servlet-class></servlet-name></servlet-name></p>
+<p>  step5.容器接下来调用servlet对象的service方法，并且会将事先创建好的request对象和response对象作为service方法的<br>参数传递给servlet对象。</p>
+<p>  step6.servelt可以通过request对象获得请求参数，进行相应的处理，然后将处理结果写到response对象上。</p>
+<p>  step7.容器读取response对象上的数据，然后将处理结果打包（响应数据包）并发送给浏览器。</p>
+<p>  step8.浏览器解析响应数据包，将返回的的数据展现给用户。</p>
+<h2 id="6-4-response"><a href="#6-4-response" class="headerlink" title="6.4 response"></a>6.4 response</h2><h3 id="1-验证码"><a href="#1-验证码" class="headerlink" title="1.验证码"></a>1.验证码</h3><p><img src="/2022/01/28/JavaWeb/image-20210929200600622.png" srcset="/img/loading.gif" lazyload alt="image-20210929200600622"></p>
+<h3 id="2-下载图片"><a href="#2-下载图片" class="headerlink" title="2.下载图片"></a>2.下载图片</h3><h3 id><a href="#" class="headerlink" title></a><img src="/2022/01/28/JavaWeb/image-20210929200944206.png" srcset="/img/loading.gif" lazyload alt="image-20210929200944206"></h3><h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><h3 id="cookie实现"><a href="#cookie实现" class="headerlink" title="cookie实现"></a>cookie实现</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">req.setCharacterEncoding(<span class="hljs-string">&quot;utf-8&quot;</span>);<br>resp.setCharacterEncoding(<span class="hljs-string">&quot;utf-8&quot;</span>);<br>      <br>resp.setHeader(<span class="hljs-string">&quot;Content-type&quot;</span>,<span class="hljs-string">&quot;text/html;charest=utf-8&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>设置req resp 的编码防止乱码</p>
+<p>设置resp.setHeader防止浏览器乱码</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Cookie[] cookies = req.getCookies();<br></code></pre></div></td></tr></table></figure>
+
+<p>接收到传来的cookie</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (cookies != <span class="hljs-keyword">null</span>)&#123;<br>   out.print(resp.encodeURL(<span class="hljs-string">&quot;cookie值为&quot;</span>));<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i =<span class="hljs-number">0</span>; i&lt;cookies.length;i++)&#123;<br>     Cookie cookie = cookies[i];<br>     	<span class="hljs-keyword">if</span> (cookie.getName().equals(<span class="hljs-string">&quot;time&quot;</span>))&#123;<br>           SimpleDateFormat dateformat = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);<br>            String dateStr = dateformat.format(System.currentTimeMillis());<br>       	 out.print(dateStr);<br>               &#125;<br>           &#125;<br>       &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>通过循坏来找到name为time的cookie，找到其对应的value并打印出来</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Cookie cookie1 = <span class="hljs-keyword">new</span> Cookie(<span class="hljs-string">&quot;time&quot;</span>,System.currentTimeMillis()+<span class="hljs-string">&quot;&quot;</span>);<br>resp.addCookie(cookie1);<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>之后重新定义一个cookie覆盖time</p>
+<h3 id="cookie讲解"><a href="#cookie讲解" class="headerlink" title="cookie讲解"></a>cookie讲解</h3><p>HTTP Cookie 机制是 HTTP 协议无状态的一种补充和改良</p>
+<p>Cookie 主要用于下面三个目的</p>
+<ul>
+<li><code>会话管理</code></li>
+</ul>
+<p>登陆、购物车、游戏得分或者服务器应该记住的其他内容</p>
+<ul>
+<li><code>个性化</code></li>
+</ul>
+<p>用户偏好、主题或者其他设置</p>
+<ul>
+<li><code>追踪</code></li>
+</ul>
+<p>记录和分析用户行为</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/28/mybatis/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">mybatis</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/28/Mysql/">
+                        <span class="hidden-mobile">Mysql</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span></span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>W&G</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

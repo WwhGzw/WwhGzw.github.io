@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wwh">
+  <meta name="keywords" content="W &amp; G的博客">
+  
+    <meta name="description" content="并发与并行并发:一个处理器同时处理多个任务。 并行:多个处理器或者是多核的处理器同时处理多个不同的任务. 前者是逻辑上的同时发生（simultaneous），而后者是物理上的同时发生 并发性(concurrency)，又称共行性，是指能处理多个同时性活动的能力，并发事件之间不一定要同一时刻发生。 并行(parallelism)是指同时发生的两个并发事件，具有并发的含义，而并发则不一定并行。 来个比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java">
+<meta property="og:url" content="http://example.com/2022/01/28/java/index.html">
+<meta property="og:site_name" content="W &amp; G">
+<meta property="og:description" content="并发与并行并发:一个处理器同时处理多个任务。 并行:多个处理器或者是多核的处理器同时处理多个不同的任务. 前者是逻辑上的同时发生（simultaneous），而后者是物理上的同时发生 并发性(concurrency)，又称共行性，是指能处理多个同时性活动的能力，并发事件之间不一定要同一时刻发生。 并行(parallelism)是指同时发生的两个并发事件，具有并发的含义，而并发则不一定并行。 来个比">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/28/java/image-20210926172511470.png">
+<meta property="og:image" content="http://example.com/2022/01/28/java/20200922220641678.png">
+<meta property="article:published_time" content="2022-01-28T05:33:02.000Z">
+<meta property="article:modified_time" content="2022-01-28T06:05:35.705Z">
+<meta property="article:author" content="Wwh">
+<meta property="article:tag" content="W &amp; G的博客">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/01/28/java/image-20210926172511470.png">
+  
+  
+  <title>java - W &amp; G</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":120,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"always","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W&amp;G</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="java">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-28 13:33" pubdate>
+        2022年1月28日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">java</h1>
+            
+            <div class="markdown-body">
+              <h1 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h1><p>并发:一个处理器同时处理多个任务。</p>
+<p>并行:多个处理器或者是多核的处理器同时处理多个不同的任务.</p>
+<p>前者是逻辑上的同时发生（simultaneous），而后者是物理上的同时发生</p>
+<p>并发性(concurrency)，又称共行性，是指能处理多个同时性活动的能力，并发事件之间不一定要同一时刻发生。</p>
+<p>并行(parallelism)是指同时发生的两个并发事件，具有并发的含义，而并发则不一定并行。</p>
+<p>来个比喻：并发和并行的区别就是一个人同时吃三个馒头和三个人同时吃三个馒头</p>
+<h2 id="线程的创建"><a href="#线程的创建" class="headerlink" title="线程的创建"></a>线程的创建</h2><p>\1. 可以使用extends 继承Thread 重写run函数来使用线程</p>
+<p>\2. 当此类以及有继承对象 可以使用implients 接入Runnable 接口来重写run 后 创建Thread对象将此类对象传入Thread中使用线程</p>
+<h2 id="线程中断和线程插队"><a href="#线程中断和线程插队" class="headerlink" title="线程中断和线程插队"></a>线程中断和线程插队</h2><p>线程中断 使用interrupt中断线程</p>
+<p>线程插队 使用join使另一个线程进行 此线程停止   可以使用yield 进行线程礼让 不一定礼让成功</p>
+<h2 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h2><p>作用： 守护线程会与进程同步 当进程结束后 守护进程结束  可以调用一些垃圾回收机制</p>
+<p>用法： 子线程名.setdaemon(true);</p>
+<p>线程的七大状态：</p>
+<p>new —– Runnable ——exit</p>
+<p>其中Runnable 分为 runing 与 reday</p>
+<p>当调用sleep join wait （均有时间限制）  线程进入Timedwaiting  时间结束后重新回到Runnable中</p>
+<p>当调用 wait join (无时间限制时)  线程进入waiting 当调用重启函数时 重新进入Runnable中 </p>
+<p>当有锁存在时 线程阻塞在blocked中 当同步线程结束后 进入runnable中</p>
+<h2 id="线程同步机制"><a href="#线程同步机制" class="headerlink" title="线程同步机制"></a>线程同步机制</h2><p>在多线程编程 中 一些敏感数据不允许被多个线程同时访问，所以使用同步机制保证数据在任何时刻只有一个线程操作。</p>
+<p>实现方法：synchronized 可以修饰方法 也可以修饰代码块</p>
+<p>public synchronized void </p>
+<p>synchronized{</p>
+<p>​      代码  </p>
+<p>}</p>
+<h2 id="互斥锁（用来解决线程超出的情况）"><a href="#互斥锁（用来解决线程超出的情况）" class="headerlink" title="互斥锁（用来解决线程超出的情况）"></a>互斥锁（用来解决线程超出的情况）</h2><p>使用synchronized 当有线程调用的时候将代码锁住</p>
+<p>非静态同步方法的锁可以是this 也可以是同一个对象 </p>
+<p>静态同步方法的锁为类本身 类名.class</p>
+<p>一般情况可以 使用   object static  o1 = new object()</p>
+<p>static的对象是所有类对象同时使用的  所以可以做为锁的存在</p>
+<p>线程死锁与释放锁：</p>
+<p>当线程1进入到o1锁之后 要进入o2锁  线程2 进入o2锁之后要进入o1锁  </p>
+<p>但 o1被线程1使用中没有执行完  o2被线程2执行 线程一无法进入o2 线程二无法进入o1所以两个线程构成死锁 无法运行</p>
+<p>释放锁 ：</p>
+<p>可以使用break退出线程循环来结束此次运行</p>
+<p>使用if＋boolen类型的判断</p>
+<h1 id="io流"><a href="#io流" class="headerlink" title="io流"></a>io流</h1><p>string  file=  一个文件 为“创建文件的路径</p>
+<p>file . createNewFile()   创建文件</p>
+<p>@test  作用：将当前类作为测试类运行 不需要mian方法去调用</p>
+<h2 id="处理流的设计思路"><a href="#处理流的设计思路" class="headerlink" title="处理流的设计思路"></a>处理流的设计思路</h2><p>​      bufferedReader  为Reader的一个子类    可以接收所有Reader的子类对象    将子类对象包装起来统一实现</p>
+<h2 id="io流分为几类"><a href="#io流分为几类" class="headerlink" title="io流分为几类"></a>io流分为几类</h2><ol>
+<li>按数据流的方向：输入流、输出流</li>
+<li>按处理数据单位：字节流、字符流</li>
+<li>按功能：节点流、处理流</li>
+</ol>
+<h2 id="io流注意事项"><a href="#io流注意事项" class="headerlink" title="io流注意事项"></a>io流注意事项</h2><p>一个英文为一个字节，一个中文为两个字节。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.*;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IOImg</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException</span>&#123;<br>        FileInputStream is = <span class="hljs-keyword">null</span>;<br>        FileOutputStream os = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">byte</span>[] isarray = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>];<br>        <span class="hljs-keyword">int</span> len;<br>        <span class="hljs-keyword">long</span> starttime = System.currentTimeMillis();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i =<span class="hljs-number">1</span> ;i&lt;<span class="hljs-number">101</span>; i++)&#123;<br>            String str1 = <span class="hljs-string">&quot;D:\\img1\\1 - 副本 (&quot;</span>+i+<span class="hljs-string">&quot;).jpg&quot;</span>;<br>            String str2 = <span class="hljs-string">&quot;D:\\img2\\1 - 副本 (&quot;</span>+i+<span class="hljs-string">&quot;).jpg&quot;</span>;<br>            is = <span class="hljs-keyword">new</span> FileInputStream(str1);<br>            os = <span class="hljs-keyword">new</span> FileOutputStream(str2);<br>            BufferedInputStream bufferedInputStream = <span class="hljs-keyword">new</span> BufferedInputStream(is);<br>            BufferedOutputStream bufferedOutputStream = <span class="hljs-keyword">new</span> BufferedOutputStream(os);<br>            <span class="hljs-keyword">while</span> ((len = bufferedInputStream.read(isarray)) &gt; -<span class="hljs-number">1</span>)&#123;<br>                bufferedOutputStream.write(isarray);<br>            &#125;<br>            System.out.println(<span class="hljs-string">&quot;1 - 副本 (&quot;</span>+i+<span class="hljs-string">&quot;).jpg 复制完成&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">long</span> endtime = System.currentTimeMillis();<br>        System.out.println(endtime-starttime+<span class="hljs-string">&quot;ms&quot;</span>);<br>        is.close();<br>        os.close();<br><br>    &#125;<br>    &#125;<br><br></code></pre></div></td></tr></table></figure>
+
+<p>传输图片的事例</p>
+<p>字节流本身没有缓冲区，缓冲字节流相对于字节流，效率提升非常高。而字符流本身就带有缓冲区，缓冲字符流相对于字符流效率提升就不是那么大了。详见文末效率对比。</p>
+<p><img src="/2022/01/28/java/image-20210926172511470.png" srcset="/img/loading.gif" lazyload alt="image-20210926172511470"></p>
+<h5 id="缓冲流的思路"><a href="#缓冲流的思路" class="headerlink" title="缓冲流的思路"></a>缓冲流的思路</h5><p>就应用这种思路：普通流每次读写一个字节，而缓冲流在内存中设置一个缓存区，缓冲区先存储足够的待操作数据后，再与内存或磁盘进行交互。这样，在总数据量不变的情况下，通过提高每次交互的数据量，减少了交互次数。</p>
+<h5 id="io流所有类"><a href="#io流所有类" class="headerlink" title="io流所有类"></a>io流所有类</h5><p><img src="/2022/01/28/java/20200922220641678.png" srcset="/img/loading.gif" lazyload alt="20200922220641678"></p>
+<p>FileOutputStream(file ,true) true为追加的意思</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IOTest</span> </span>&#123;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">write</span><span class="hljs-params">(File file)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>		<span class="hljs-comment">// 缓冲字节流，提高了效率</span><br>		BufferedOutputStream bis = <span class="hljs-keyword">new</span> BufferedOutputStream(<span class="hljs-keyword">new</span> FileOutputStream(file, <span class="hljs-keyword">true</span>));<br><br>		<span class="hljs-comment">// 要写入的字符串</span><br>		String string = <span class="hljs-string">&quot;松下问童子，言师采药去。只在此山中，云深不知处。&quot;</span>;<br>		<span class="hljs-comment">// 写入文件</span><br>		bis.write(string.getBytes());<br>		<span class="hljs-comment">// 关闭流</span><br>		bis.close();<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">read</span><span class="hljs-params">(File file)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>		BufferedInputStream fis = <span class="hljs-keyword">new</span> BufferedInputStream(<span class="hljs-keyword">new</span> FileInputStream(file));<br><br>		<span class="hljs-comment">// 一次性取多少个字节</span><br>		<span class="hljs-keyword">byte</span>[] bytes = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];<br>		<span class="hljs-comment">// 用来接收读取的字节数组</span><br>		StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();<br>		<span class="hljs-comment">// 读取到的字节数组长度，为-1时表示没有数据</span><br>		<span class="hljs-keyword">int</span> length = <span class="hljs-number">0</span>;<br>		<span class="hljs-comment">// 循环取数据</span><br>		<span class="hljs-keyword">while</span> ((length = fis.read(bytes)) != -<span class="hljs-number">1</span>) &#123;<br>			<span class="hljs-comment">// 将读取的内容转换成字符串</span><br>			sb.append(<span class="hljs-keyword">new</span> String(bytes, <span class="hljs-number">0</span>, length));<br>		&#125;<br>		<span class="hljs-comment">// 关闭流</span><br>		fis.close();<br><br>		<span class="hljs-keyword">return</span> sb.toString();<br>	&#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>关闭流之前要刷新flush()</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/28/Mysql/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Mysql</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/25/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span></span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>W&G</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
